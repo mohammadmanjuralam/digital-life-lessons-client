@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import useAxiosHooks from "../../../Controller/useAxiosHooks/useAxiosHooks";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import useAuth from "../../../Controller/useAuth/useAuth";
 
 const AddLesson = ({ onSubmit }) => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -33,6 +35,7 @@ const AddLesson = ({ onSubmit }) => {
         emotional: data.emotional,
         visibility: data.visibility,
         accessLevel: data.accessLevel,
+        email: user.email,
       });
 
       console.log("Lesson created:", res.data);
@@ -44,7 +47,7 @@ const AddLesson = ({ onSubmit }) => {
           showConfirmButton: false,
           timer: 2500,
         });
-        navigate("/my-lesson");
+        navigate("/my-lessons");
       }
       reset();
     } catch (err) {

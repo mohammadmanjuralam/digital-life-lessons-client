@@ -1,89 +1,43 @@
 import React from "react";
-
-import Swal from "sweetalert2";
 import useAxiosHooks from "../../../Controller/useAxiosHooks/useAxiosHooks";
-import useAuth from "../../../Controller/useAuth/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../Controller/useAuth/useAuth";
+import "./MyLesson.css";
 
-const MyLesson = ({ currentUser }) => {
+const MyLesson = () => {
   const axiosSecure = useAxiosHooks();
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
-  const { data: lessons = [], refetch } = useQuery({
-    queryKey: ["myLesson", user?.email],
-
+  const { data: lessons = [] } = useQuery({
+    queryKey: ["myLessons", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/my-lessons?email=${user?.email}/role`
-      );
+      const res = await axiosSecure.get(`/my-lessons/${user?.email}`); // ✅ await
       return res.data;
     },
   });
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-gray-500 text-lg">Loading your lessons...</p>
-      </div>
-    );
-  }
-
-  if (lessons.length === 0) {
-    return (
-      <div className="text-center mt-10 text-gray-500">
-        You haven't created any lessons yet.
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">My Lessons</h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {lessons?.map((lesson) => {
-          const isLocked =
-            lesson.accessLevel === "Premium" && !currentUser?.isPremium;
-
-          return (
-            <div
-              key={lesson._id}
-              className={`relative bg-white p-5 rounded-xl shadow-md hover:shadow-xl transition-shadow ${
-                isLocked ? "filter blur-sm" : ""
-              }`}
-            >
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                {lesson.title}
-              </h3>
-              <p className="text-gray-600 mb-3 line-clamp-3">
-                {lesson.description}
-              </p>
-              <p className="text-sm text-gray-500 mb-1">
-                Category: {lesson.category}
-              </p>
-              <p className="text-sm text-gray-500 mb-1">
-                Emotional: {lesson.emotional}
-              </p>
-              <p className="text-sm text-gray-400">
-                Visibility: {lesson.visibility} | Access: {lesson.accessLevel}
-              </p>
-
-              {/* Premium Blur */}
-              {isLocked && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white rounded-xl">
-                  <p className="mb-2 font-bold text-lg">Premium Lesson</p>
-                  <button
-                    className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300"
-                    onClick={() => (window.location.href = "/pricing")}
-                  >
-                    Upgrade to Premium
-                  </button>
+    <div className="p-4 text-black flex justify-center items-center border-2 border-red-500">
+      {lessons.length === 0 ? (
+        <p>No lessons found.</p>
+      ) : (
+        <div className="flex flex-col sm:flex-cols-2 lg:flex-cols-3 gap-4  border-2 border-blue-500 justify-center items-center">
+          {lessons.map((lesson) => (
+            <div className="card border-2 border-red-500  ">
+              <a className="card1 w-[300px] h-[400px]" href="#">
+                <p>{lesson.title}</p>
+                <p className="small">{lesson.description}</p>
+                <p>{lesson.emotional}</p>
+                <p>{lesson.visibility}</p>
+                <p>{lesson.accessLevel}</p>
+                <div className="go-corner" href="#">
+                  <div className="go-arrow">→</div>
                 </div>
-              )}
+              </a>
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

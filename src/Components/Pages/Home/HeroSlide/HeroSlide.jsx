@@ -5,6 +5,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Link } from "react-router";
 
 const HeroSlide = () => {
   const slides = [
@@ -56,9 +57,12 @@ const HeroSlide = () => {
                 <p className="text-sm sm:text-base md:text-lg mb-6 opacity-90">
                   {slide.desc}
                 </p>
-                <button className="btn btn-primary px-6 py-2 rounded-full hover:scale-105 transition-all duration-300">
+                <Link
+                  to="/add-lesson"
+                  className="btn btn-primary px-6 py-2 rounded-full hover:scale-105 transition-all duration-300"
+                >
                   Get Started
-                </button>
+                </Link>
               </div>
             </div>
           </SwiperSlide>
