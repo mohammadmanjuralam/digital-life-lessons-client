@@ -21,7 +21,7 @@ const MyLesson = () => {
       {lessons.length === 0 ? (
         <p>No lessons found.</p>
       ) : (
-        <div className="flex flex-col sm:flex-cols-2 lg:flex-cols-3 gap-4  border-2 border-blue-500 justify-center items-center">
+        <div className="grid grid -col sm:grid -cols-2 lg:grid-cols-3 gap-4  border-2 border-blue-500 justify-center items-center">
           {lessons.map((lesson) => (
             <div className="card border-2 border-red-500  ">
               <a className="card1 w-[300px] h-[400px]" href="#">
