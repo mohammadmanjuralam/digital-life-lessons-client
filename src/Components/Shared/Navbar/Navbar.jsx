@@ -7,6 +7,7 @@ import { FaUser, FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  console.log(user);
   const handleLogOut = () => {
     logOut()
       .then()
@@ -23,13 +24,16 @@ const Navbar = () => {
       {user ? (
         <>
           <li>
-            <NavLink to="/add-lesson">Add Lesson</NavLink>
+            <NavLink to="/dashboard/add-lesson">Add Lesson</NavLink>
           </li>
           <li>
-            <NavLink to="/my-lessons">My Lesson</NavLink>
+            <NavLink to="/dashboard/my-lessons">My Lesson</NavLink>
           </li>
           <li>
             <NavLink to="/public-lessons">Public Lesson</NavLink>
+          </li>
+          <li>
+            <NavLink to="/pricing-plan">Pricing Plan</NavLink>
           </li>
         </>
       ) : (
@@ -45,7 +49,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar button-container shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -87,19 +91,17 @@ const Navbar = () => {
             <span>Profile</span>
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="user avatar"
-                    src={
-                      user
-                        ? user.photoUrl || (
-                            <span>
-                              <FaUserCircle />
-                            </span>
-                          )
-                        : ""
-                    }
-                  />
+                <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
+                  {user?.photoURL ? (
+                    <img
+                      alt="user avatar"
+                      referrerPolicy="no-referrer"
+                      src={user.photoURL}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <FaUserCircle className="text-3xl text-gray-500" />
+                  )}
                 </div>
               </label>
 

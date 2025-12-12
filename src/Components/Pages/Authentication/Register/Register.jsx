@@ -43,7 +43,6 @@ const Register = () => {
             email: data.email,
             displayName: data.name,
             photoUrl: photoURL,
-            
           };
           axiosSecure.post("/users", userInfo).then((res) => {
             if (res.data.insertedId) {
@@ -73,7 +72,7 @@ const Register = () => {
   };
 
   return (
-    <div className="card bg-base-100 w-full max-w-sm shrink-0 ">
+    <div className="card  w-150  shrink-0 mx-auto bg-gray-900 mt-20">
       <div className="card-body ">
         <form onSubmit={handleSubmit(handleRegistration)}>
           <fieldset className="fieldset">
@@ -135,7 +134,7 @@ const Register = () => {
             )}
 
             <button className="btn bg-primary mt-4">Register</button>
-            <p className="text-accent">
+            <p className="text-accent text-center">
               Already have any account?{" "}
               <Link
                 state={location.state}

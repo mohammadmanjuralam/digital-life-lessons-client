@@ -27,13 +27,13 @@ const Login = () => {
       });
   };
   return (
-    <div className="card bg-base-100 w-full max-w-sm shrink-0 ">
+    <div className="card  w-150 mx-auto  shrink-0 bg-gray-900 mt-20">
       <div className="card-body ">
         <form onSubmit={handleSubmit(handleLogin)}>
           <fieldset className="fieldset">
             <h1 className="font-bold text-[42px]">Welcome Back</h1>
             <p className="py-2">Login with ZapShift</p>
-            <label className="label">Email</label>
+            <label className="label ">Email</label>
             {/* {email field} */}
             <input
               type="email"
@@ -50,7 +50,7 @@ const Login = () => {
             {errors.email?.type === "pattern" && (
               <p className="text-red-500">Email Formate invalid</p>
             )}
-            <label className="label">Password</label>
+            <label className="label ">Password</label>
             {/* {password field} */}
             <input
               type="password"
@@ -70,7 +70,7 @@ const Login = () => {
               </Link>
             </div>
             <button className="btn bg-primary mt-4">Login</button>
-            <p className="text-accent">
+            <p className="text-accent text-center">
               Don't have any account?{" "}
               <Link
                 state={location.state || "/"}

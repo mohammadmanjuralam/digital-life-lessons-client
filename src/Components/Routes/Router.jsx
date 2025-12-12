@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import ErrorPage from "../RootLayOut/ErrorPage/ErrorPage";
+
 import Root from "../RootLayOut/Root";
 import Home from "../Pages/Home/Home";
 import PublicLesson from "../Pages/Home/PublicLesson/PublicLesson";
@@ -7,40 +7,78 @@ import Login from "../Pages/Authentication/Login/Login";
 import Register from "../Pages/Authentication/Register/Register";
 import AddLesson from "../Pages/Home/Add Lesson/AddLesson";
 import MyLesson from "../Pages/Home/MyLesson/MyLesson";
+import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
+import PricingPlan from "../Pages/Pricing Plan/PricingPlan";
+import DashBoardLayout from "../DashboardLayout/DashboardLayout";
+import Dashboard from "../DashboardLayout/Dashboard";
+import ErrorPage from "../DashboardLayout/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: Root,
+    element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        Component: Home,
+        element: <Home />,
       },
       {
         path: "public-lesson",
-        Component: PublicLesson,
+        element: <PublicLesson />,
       },
       {
         path: "login",
-        Component: Login,
+        element: <Login />,
       },
       {
         path: "register",
-        Component: Register,
-      },
-      {
-        path: "add-lesson",
-        Component: AddLesson,
-      },
-      {
-        path: "my-lessons",
-        Component: MyLesson,
+        element: <Register />,
       },
       {
         path: "public-lessons",
-        Component: PublicLesson,
+        element: (
+          <PrivateRoutes>
+            <PublicLesson />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "pricing-plan",
+        element: (
+          <PrivateRoutes>
+            <PricingPlan />
+          </PrivateRoutes>
+        ),
+      },
+    ],
+  },
+
+  // Dashboard Routes
+  {
+    path: "dashboard",
+    element: <DashBoardLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "add-lesson",
+        element: (
+          <PrivateRoutes>
+            <AddLesson />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "my-lessons",
+        element: (
+          <PrivateRoutes>
+            <MyLesson />
+          </PrivateRoutes>
+        ),
       },
     ],
   },
