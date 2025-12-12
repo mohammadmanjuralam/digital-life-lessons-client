@@ -28,6 +28,14 @@ export const router = createBrowserRouter([
         element: <PublicLesson />,
       },
       {
+        path: "lesson/:id",
+        element: (
+          <PrivateRoutes>
+            <LessonDetails />
+          </PrivateRoutes>
+        ),
+      },
+      {
         path: "login",
         element: <Login />,
       },
