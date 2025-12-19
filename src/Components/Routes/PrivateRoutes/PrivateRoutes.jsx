@@ -6,7 +6,6 @@ import useAuth from "../../Controller/useAuth/useAuth";
 const PrivateRoutes = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
-  console.log("i am from private route", user);
 
   if (loading) {
     return (

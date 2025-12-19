@@ -79,7 +79,7 @@ const Register = () => {
             <h1 className="font-bold text-[42px] whitespace-nowrap">
               Create an Account
             </h1>
-            <p className="py-2">Register with ZapShift</p>
+            <p className="py-2">Register with Digital Life Session</p>
             {/* Name */}
             <label className="label">Name</label>
             <input

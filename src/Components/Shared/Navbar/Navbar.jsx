@@ -7,7 +7,6 @@ import { FaUser, FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-  console.log(user);
   const handleLogOut = () => {
     logOut()
       .then()

@@ -58,7 +58,7 @@ const HeroSlide = () => {
                   {slide.desc}
                 </p>
                 <Link
-                  to="/add-lesson"
+                  to="/dashboard/add-lesson"
                   className="btn btn-primary px-6 py-2 rounded-full hover:scale-105 transition-all duration-300"
                 >
                   Get Started

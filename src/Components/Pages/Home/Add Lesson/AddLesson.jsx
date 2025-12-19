@@ -2,10 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAxiosHooks from "../../../Controller/useAxiosHooks/useAxiosHooks";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../../../Controller/useAuth/useAuth";
 
-const AddLesson = ({ onSubmit }) => {
+const AddLesson = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const {
@@ -27,6 +27,7 @@ const AddLesson = ({ onSubmit }) => {
   const axiosSecure = useAxiosHooks();
 
   const submitHandler = async (data) => {
+    console.log("created submit button");
     try {
       const res = await axiosSecure.post("/add-lesson", {
         title: data.title,
@@ -47,7 +48,7 @@ const AddLesson = ({ onSubmit }) => {
           showConfirmButton: false,
           timer: 2500,
         });
-        navigate("/my-lessons");
+        navigate("/dashboard/my-lessons");
       }
       reset();
     } catch (err) {
@@ -90,29 +91,49 @@ const AddLesson = ({ onSubmit }) => {
         </div>
 
         {/* Category & Emotional */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            {...register("category", { required: "category is required" })}
-            placeholder="Category"
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+        {/* Category & Emotional */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Category Select */}
+          <div className="flex flex-col">
+            <select
+              {...register("category", { required: "Category is required" })}
+              className="w-full p-3 border-2 border-purple-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+            >
+              <option value="">Select Category</option>
+              <option value="Mindset">Mindset</option>
+              <option value="Career">Career</option>
+              <option value="Personal Growth">Personal Growth</option>
+              <option value="Health">Health</option>
+              <option value="Education">Education</option>
+            </select>
+            {errors.category && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.category.message}
+              </p>
+            )}
+          </div>
 
-          {errors.category && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.category.message}
-            </p>
-          )}
-          <input
-            {...register("emotional", { required: "Emotional tone required" })}
-            placeholder="Emotional"
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <br />
-          {errors.emotional && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.emotional.message}
-            </p>
-          )}
+          {/* Emotional Tone Select */}
+          <div className="flex flex-col">
+            <select
+              {...register("emotional", {
+                required: "Emotional tone is required",
+              })}
+              className="w-full p-3 border-2 border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            >
+              <option value="">Select Emotional Tone</option>
+              <option value="Motivational">Motivational</option>
+              <option value="Sad">Sad</option>
+              <option value="Realization">Realization</option>
+              <option value="Happy">Happy</option>
+              <option value="Inspiring">Inspiring</option>
+            </select>
+            {errors.emotional && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.emotional.message}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Visibility & Access Level */}

@@ -1,68 +1,102 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import useAxiosHooks from "../../../../Controller/useAxiosHooks/useAxiosHooks";
+import useAuth from "../../../../Controller/useAuth/useAuth";
 
 const LessonDetailsPage = () => {
-  const { id } = useParams(); // lesson id
-  const [lesson, setLesson] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [comment, setComment] = useState("");
+  const { id } = useParams();
+  const axiosSecure = useAxiosHooks();
+  const { user } = useAuth;
+  const [commentText, setCommentText] = useState("");
 
-  // Load lesson data
-  useEffect(() => {
-    fetch(`http://localhost:5000/lessons/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setLesson(data);
-        setLoading(false);
-      });
-  }, [id]);
+  // ✅ Fetch lesson details
+  const {
+    data: lesson,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["lesson-details", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/public-lessons/${id}`);
+      return res.data;
+    },
+    enabled: !!id,
+  });
 
-  if (loading) return <p>Loading...</p>;
+  // ✅ Submit new comment
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!commentText.trim()) return;
 
-  const handleComment = () => {
-    fetch(`http://localhost:5000/lessons/comment/${id}`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ text: comment, user: "Test user" }),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        setComment("");
-        // reload lesson to show new comment
-        fetch(`http://localhost:5000/lessons/${id}`)
-          .then((res) => res.json())
-          .then((data) => setLesson(data));
-      });
+    await axiosSecure.post(`/public-lessons/comment/${id}`, {
+      user: user?.email || "Anonymous",
+      text: commentText,
+    });
+    setCommentText("");
+    refetch(); // refresh lesson data
   };
 
+  if (isLoading) return <div className="text-center">Loading...</div>;
+  if (error)
+    return <div className="text-center text-red-500">Error loading lesson</div>;
+  if (!lesson)
+    return <div className="text-center text-gray-500">Lesson not found</div>;
+
   return (
-    <div className="max-w-3xl mx-auto p-5">
-      <h1 className="text-3xl font-bold">{lesson.title}</h1>
-      <p className="mt-3">{lesson.description}</p>
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 p-6 flex justify-center items-center">
+      <div className="max-w-3xl w-full bg-white rounded-xl shadow-2xl p-8">
+        {/* Lesson Info */}
+        <h1 className="text-3xl font-extrabold text-purple-700 mb-4 text-center">
+          {lesson.title}
+        </h1>
+        <p className="text-gray-700 text-lg mb-6">{lesson.description}</p>
 
-      <h2 className="text-xl font-semibold mt-6">Comments:</h2>
-      <div className="mt-3 space-y-2">
-        {lesson.comments?.map((c, i) => (
-          <div key={i} className="p-3 border rounded bg-gray-50">
-            {c.text}
-          </div>
-        ))}
-      </div>
+        {/* Comments Section */}
+        <div className="bg-gray-50 rounded-lg p-6 shadow">
+          <h2 className="text-xl font-bold text-purple-600 mb-4">
+            💬 Comments
+          </h2>
 
-      <div className="mt-5">
-        <input
-          className="border p-2 w-full rounded"
-          placeholder="Write a comment..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
+          {/* Existing comments */}
+          {lesson.comments?.length > 0 ? (
+            <ul className="space-y-3 mb-6">
+              {lesson.comments.map((c, i) => (
+                <li key={i} className="bg-white p-3 rounded shadow-sm">
+                  <p className="text-sm text-gray-800">
+                    <span className="font-semibold text-blue-600">
+                      {c.user}:
+                    </span>{" "}
+                    {c.text}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(c.createdAt).toLocaleString()}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 mb-6">No comments yet. Be the first!</p>
+          )}
 
-        <button
-          onClick={handleComment}
-          className="px-4 py-2 bg-blue-600 text-white rounded mt-2"
-        >
-          Post Comment
-        </button>
+          {/* Add new comment */}
+          <form onSubmit={handleCommentSubmit} className="flex gap-3">
+            <input
+              type="text"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="Write a comment..."
+              className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 text-black"
+            />
+            <button
+              type="submit"
+              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+            >
+              Post
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

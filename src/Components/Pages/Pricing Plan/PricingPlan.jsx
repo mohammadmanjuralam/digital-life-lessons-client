@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useNavigate } from "react-router";
 import useAuth from "../../Controller/useAuth/useAuth";
 import useAxios from "../../Controller/useAxiosHooks/useAxios";
+import UseRole from "../../Controller/useRole/useRole";
 
 const PricingPlan = () => {
   const axiosSecure = useAxios();
-  const { user, premiumStatus } = useAuth();
-  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  const { user, premiumStatus } = useAuth();
+
+  const { role } = UseRole(user?.email);
+  console.log(role, "iam from plan");
+  const navigate = useNavigate();
 
   // If user already premium → redirect or show badge
   useEffect(() => {
@@ -19,15 +22,17 @@ const PricingPlan = () => {
   }, [premiumStatus, navigate]);
 
   const handleUpgrade = async () => {
-    setLoading(true);
     try {
-      const { data } = await axiosSecure.post("/create-checkout-session", {
-        email: user?.email,
-      });
-      window.location.replace(data.url);
+      const res = await axiosSecure.post(
+        "http://localhost:5000/create-checkout-session",
+        {
+          email: user.email,
+          userId: user._id,
+        }
+      );
+      window.location.href = res.data.url;
     } catch (err) {
       console.error(err);
-      setLoading(false);
     }
   };
 
@@ -83,10 +88,10 @@ const PricingPlan = () => {
           {/* Upgrade Button */}
           <button
             onClick={handleUpgrade}
-            disabled={loading}
-            className="mt-6 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-lg font-semibold"
+            // disabled={role === "premium"}
+            style={{ cursor: role === "premium" ? "not-allowed" : "pointer" }}
           >
-            {loading ? "Processing..." : "Upgrade to Premium"}
+            {role === "premium" ? "Already Premium user" : "Upgrade"}
           </button>
         </div>
       </div>

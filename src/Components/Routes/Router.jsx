@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router";
 
 import Root from "../RootLayOut/Root";
 import Home from "../Pages/Home/Home";
-import PublicLesson from "../Pages/Home/PublicLesson/PublicLesson";
+
 import Login from "../Pages/Authentication/Login/Login";
 import Register from "../Pages/Authentication/Register/Register";
 import AddLesson from "../Pages/Home/Add Lesson/AddLesson";
@@ -12,6 +12,10 @@ import PricingPlan from "../Pages/Pricing Plan/PricingPlan";
 import DashBoardLayout from "../DashboardLayout/DashboardLayout";
 import Dashboard from "../DashboardLayout/Dashboard";
 import ErrorPage from "../DashboardLayout/ErrorPage/ErrorPage";
+import LessonDetailsPage from "../Pages/Home/PublicLesson/LessonDetailsPage/LessonDetailsPage";
+import PublicLesson from "../Pages/Home/PublicLesson/PublicLesson";
+import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
+import PaymentCancel from "../Pages/PaymentCancel/PaymentCancel";
 
 export const router = createBrowserRouter([
   {
@@ -24,14 +28,34 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "public-lesson",
+        path: "public-lessons",
         element: <PublicLesson />,
+      },
+      {
+        path: "lesson-details/:id",
+        element: <LessonDetailsPage />,
       },
       {
         path: "lesson/:id",
         element: (
           <PrivateRoutes>
-            <LessonDetails />
+            <LessonDetailsPage />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "payment-success",
+        element: (
+          <PrivateRoutes>
+            <PaymentSuccess />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "payment-cancel",
+        element: (
+          <PrivateRoutes>
+            <PaymentCancel />
           </PrivateRoutes>
         ),
       },
