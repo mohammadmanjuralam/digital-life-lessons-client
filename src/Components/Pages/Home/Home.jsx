@@ -57,12 +57,8 @@ const Home = () => {
               <h3 className="text-xl font-semibold text-black">
                 {lesson.title}
               </h3>
-              <p className="text-sm text-gray-600 text-black">
-                Category: {lesson.category}
-              </p>
-              <p className="text-sm text-gray-600 text-black">
-                Creator: {lesson.creator}
-              </p>
+              <p className="text-sm  text-black">Category: {lesson.category}</p>
+              <p className="text-sm  text-black">Creator: {lesson.creator}</p>
               <p className="text-sm mt-2 text-black">{lesson.description}</p>
             </div>
           ))}
@@ -124,10 +120,10 @@ const Home = () => {
                 className="w-16 h-16 rounded-full mx-auto mb-4"
               />
               <h3 className="font-bold  text-black">{user.name}</h3>
-              <p className="text-sm text-gray-600  text-black">
+              <p className="text-sm   text-black">
                 Lessons: {user.lessonCount}
               </p>
-              <p className="text-sm text-gray-600  text-black">
+              <p className="text-sm   text-black">
                 Engagement Score: {user.score}
               </p>
             </div>

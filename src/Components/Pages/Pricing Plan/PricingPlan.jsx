@@ -35,7 +35,7 @@ const PricingPlan = () => {
       console.error(err);
     }
   };
-
+console.log(role);
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       {/* Header */}{" "}
@@ -86,11 +86,11 @@ const PricingPlan = () => {
           </div>
 
           {/* Upgrade Button */}
-          <button
+          <button className="text-black bg-gradient-to-r from-pink-500 to-indigo-500 px-4 py-2 rounded mt-6 font-semibold hover:from-pink-600 hover:to-indigo-600 transition"
             onClick={handleUpgrade}
-            // disabled={role === "premium"}
+           disabled={role === "premium"}
             style={{ cursor: role === "premium" ? "not-allowed" : "pointer" }}
-          >
+          > 
             {role === "premium" ? "Already Premium user" : "Upgrade"}
           </button>
         </div>

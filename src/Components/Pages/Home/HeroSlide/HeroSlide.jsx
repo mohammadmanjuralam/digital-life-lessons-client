@@ -59,7 +59,7 @@ const HeroSlide = () => {
                 </p>
                 <Link
                   to="/dashboard/add-lesson"
-                  className="btn btn-primary px-6 py-2 rounded-full hover:scale-105 transition-all duration-300"
+                  className="btn hover:bg-red-600 btn-primary px-6 py-2 rounded-full hover:scale-105 transition-all duration-300"
                 >
                   Get Started
                 </Link>

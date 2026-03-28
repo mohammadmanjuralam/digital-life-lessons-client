@@ -19,6 +19,9 @@ const Navbar = () => {
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
+      <li>
+        <NavLink to="/public-lessons">Public Lesson</NavLink>
+      </li>
 
       {user ? (
         <>
@@ -28,9 +31,7 @@ const Navbar = () => {
           <li>
             <NavLink to="/dashboard/my-lessons">My Lesson</NavLink>
           </li>
-          <li>
-            <NavLink to="/public-lessons">Public Lesson</NavLink>
-          </li>
+
           <li>
             <NavLink to="/pricing-plan">Pricing Plan</NavLink>
           </li>

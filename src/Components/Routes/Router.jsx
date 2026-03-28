@@ -16,6 +16,7 @@ import LessonDetailsPage from "../Pages/Home/PublicLesson/LessonDetailsPage/Less
 import PublicLesson from "../Pages/Home/PublicLesson/PublicLesson";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import PaymentCancel from "../Pages/PaymentCancel/PaymentCancel";
+import UserProfile from "../Shared/Navbar/UserProfile/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <PublicLesson />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoutes>
+            <UserProfile />
           </PrivateRoutes>
         ),
       },

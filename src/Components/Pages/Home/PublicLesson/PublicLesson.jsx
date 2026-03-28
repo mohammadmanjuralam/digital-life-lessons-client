@@ -22,7 +22,6 @@ const PublicLesson = () => {
     },
   });
 
-  // ✅ Filtered lessons (derived state)
   const filteredLessons = useMemo(() => {
     let finalData = [...lessons];
 
@@ -52,11 +51,9 @@ const PublicLesson = () => {
       </div>
     );
   }
-  console.log(lessons);
 
   return (
     <div>
-      {/* 🔹 Filters */}
       <div className="p-10 text-center text-black space-x-10 flex flex-wrap items-center justify-center">
         <h1 className="text-white">Category:</h1>
         <select
@@ -96,7 +93,6 @@ const PublicLesson = () => {
         />
       </div>
 
-      {/* 🔹 Lessons Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 border-2 border-blue-500 justify-center items-center p-4 max-w-7xl mx-auto">
         {filteredLessons.length === 0 ? (
           <p className="text-white text-center col-span-full">

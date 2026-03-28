@@ -17,19 +17,19 @@ const MyLesson = () => {
   });
 
   return (
-    <div className="p-4 text-black flex justify-center items-center border-2 border-red-500">
+    <div className="p-4 text-black flex justify-center items-center  ">
       {lessons.length === 0 ? (
         <p>No lessons found.</p>
       ) : (
-        <div className="grid grid -col sm:grid -cols-2 lg:grid-cols-3 gap-4  border-2 border-blue-500 justify-center items-center">
+        <div className="grid-col sm:grid -cols-2 lg:grid-cols-3 gap-4    justify-center items-center">
           {lessons.map((lesson) => (
-            <div className="card border-2 border-red-500  ">
+            <div className="card ">
               <a className="card1 w-[300px] h-[400px]" href="#">
-                <p>{lesson.title}</p>
+                <p><span className="font-bold text-black">Title:</span> {lesson.title}</p>
                 <p className="small">{lesson.description}</p>
-                <p>{lesson.emotional}</p>
-                <p>{lesson.visibility}</p>
-                <p>{lesson.accessLevel}</p>
+                <p><span className="font-bold text-black">Emotional:</span> {lesson.emotional}</p>
+                <p><span className="font-bold text-black">Visibility:</span> {lesson.visibility}</p>
+                <p><span className="font-bold text-black">Access Level:</span> {lesson.accessLevel}</p>
                 <div className="go-corner" href="#">
                   <div className="go-arrow">→</div>
                 </div>
